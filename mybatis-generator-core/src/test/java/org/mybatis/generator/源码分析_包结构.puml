@@ -1,0 +1,24 @@
+@startuml
+
+
+package org.mybatis.generator.api{
+[各种类的接口]
+}
+package org.mybatis.generator.api.dom.java{
+[各种JAVA元素的定义]
+}
+package org.mybatis.generator.codegen.mybatis3.javamapper{
+[DAO类的各个方法实现类]
+}
+package org.mybatis.generator.codegen.mybatis3.model{
+[MODEL类的实现类]
+}
+
+package org.mybatis.generator.codegen.mybatis3.model{
+[XML文件各个方法的实现类]
+}
+
+package org.mybatis.generator.plugins{
+[插件集合]
+}
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+
+class DefaultCommentGenerator<注释生成类>{
+}
+abstract  IntrospectedTable{
+ initialize()初始化配置文件,map,和生成那些文件.
+ calculateGenerators() 加载各个需要生成的文件的信息
+ getGeneratedJavaFiles() 生成java文件
+ getGeneratedXmlFiles() 生成xml文件
+}
+
+class Context<上下文类>{
+ generateFiles()开始自动生成文件的入口
+}
+class IntrospectedTableMyBatis3Impl<每个表实例的对象>{
+}
+IntrospectedTable <|-- IntrospectedTableMyBatis3Impl
+package org.mybatis.generator.codegen{
+abstract AbstractJavaClientGenerator
+class JavaMapperGenerator<加载需要生成的方法>
+class XMLMapperGenerator<加载需要生成的xml元素>
+AbstractJavaClientGenerator <|-- JavaMapperGenerator
+package mybatis3.javamapper.elements<包含javaMaper以及各个方法的实现类>{
+abstract AbstractJavaMapperMethodGenerator
+}
+package mybatis3.model<包含model的实现类>{
+}
+package mybatis3.xmlmapper<包含xml以及各个方法的实现类>{
+}
+AbstractJavaClientGenerator o-right-AbstractJavaMapperMethodGenerator
+
+}
+
+
+
+
+
+@enduml

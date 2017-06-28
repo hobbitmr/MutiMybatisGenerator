@@ -1,0 +1,217 @@
+/**
+ *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package org.mybatis.generator.codegen.mybatis3.model;
+
+import static org.mybatis.generator.internal.util.JavaBeansUtil.getGetterMethodName;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mybatis.generator.api.CommentGenerator;
+import org.mybatis.generator.api.FullyQualifiedTable;
+import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.dom.java.CompilationUnit;
+import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.InnerClass;
+import org.mybatis.generator.api.dom.java.JavaVisibility;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.Parameter;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.codegen.AbstractJavaGenerator;
+import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
+
+/**
+ * 
+ * @author hobbit
+ * 
+ */
+public class WhereGenerator extends AbstractJavaGenerator {
+
+    public WhereGenerator() {
+        super();
+    }
+
+    @Override
+    public List<CompilationUnit> getCompilationUnits() {
+        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
+        progressCallback.startTask(getString(
+                "Progress.6", table.toString())); //$NON-NLS-1$
+        CommentGenerator commentGenerator = context.getCommentGenerator();
+
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(
+                introspectedTable.getWhereType());
+        TopLevelClass topLevelClass = new TopLevelClass(type);
+        topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+        commentGenerator.addJavaFileComment(topLevelClass);
+
+        // add default constructor
+        Method method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setConstructor(true);
+        method.setName(type.getShortName());
+        method.addBodyLine("this.criterion = new ArrayList<>();"); //$NON-NLS-1$
+        topLevelClass.addMethod(method);
+
+        // add field, getter, setter for orderby clause
+        Field field = new Field();
+        field.setVisibility(JavaVisibility.PROTECTED);
+        field.setType(FullyQualifiedJavaType.getStringInstance());
+        field.setName("orderBy"); //$NON-NLS-1$
+        commentGenerator.addFieldComment(field, "排序条件");
+        topLevelClass.addField(field);
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName("setOrderBy"); //$NON-NLS-1$
+        method.addParameter(new Parameter(FullyQualifiedJavaType
+                .getStringInstance(), "orderBy")); //$NON-NLS-1$
+        method.addBodyLine("this.orderBy = orderBy;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "设置排序条件");
+        topLevelClass.addMethod(method);
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setReturnType(FullyQualifiedJavaType.getStringInstance());
+        method.setName("getOrder"); //$NON-NLS-1$
+        method.addBodyLine("return orderBy;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "获取排序条件");
+        topLevelClass.addMethod(method);
+
+        // add field, getter, setter for distinct
+        field = new Field();
+        field.setVisibility(JavaVisibility.PROTECTED);
+        field.setType(FullyQualifiedJavaType.getBooleanPrimitiveInstance());
+        field.setName("distinct"); //$NON-NLS-1$
+        commentGenerator.addFieldComment(field, "是否会设置 distinct 属性");
+        topLevelClass.addField(field);
+
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setReturnType(FullyQualifiedJavaType
+                .getBooleanPrimitiveInstance());
+        method.setName("setDistinct"); //$NON-NLS-1$
+        method.addParameter(new Parameter(FullyQualifiedJavaType
+                .getBooleanPrimitiveInstance(), "distinct")); //$NON-NLS-1$
+        method.addBodyLine("this.distinct = distinct;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "是设置 是否distinct");
+        topLevelClass.addMethod(method);
+
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setReturnType(FullyQualifiedJavaType
+                .getBooleanPrimitiveInstance());
+        method.setName("isDistinct"); //$NON-NLS-1$
+        method.addBodyLine("return distinct;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "是否会设置 distinct 属性");
+        topLevelClass.addMethod(method);
+
+        // add field and methods for the list of ored criteria
+        field = new Field();
+        field.setVisibility(JavaVisibility.PROTECTED);
+
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
+                "java.util.List<Criterion>"); //$NON-NLS-1$
+        field.setType(fqjt);
+        field.setName("criterion"); //$NON-NLS-1$
+        commentGenerator.addFieldComment(field, "条件列表");
+        topLevelClass.addField(field);
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setReturnType(fqjt);
+        method.setName("getCriterion"); //$NON-NLS-1$
+        method.addBodyLine("return criterion;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "获取条件列表");
+        topLevelClass.addMethod(method);
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName("and"); //$NON-NLS-1$
+        method.addParameter(new Parameter(FullyQualifiedJavaType
+                .getCriteriaInstance(), "criteria")); //$NON-NLS-1$
+        method.addBodyLine("criterion.add(criteria);"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "添加条件对象");
+        topLevelClass.addMethod(method);
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName("clear"); //$NON-NLS-1$
+        method.addBodyLine("criterion.clear();"); //$NON-NLS-1$
+        method.addBodyLine("orderBy = null;"); //$NON-NLS-1$
+        method.addBodyLine("distinct = false;"); //$NON-NLS-1$
+        commentGenerator.addGeneralMethodComment(method, "清除所有参数");
+        topLevelClass.addMethod(method);
+
+        topLevelClass.addInnerClass(getCriterionInnerClass());
+
+        List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
+        if (context.getPlugins().modelExampleClassGenerated(
+                topLevelClass, introspectedTable)) {
+            answer.add(topLevelClass);
+        }
+        return answer;
+    }
+
+    private InnerClass getCriterionInnerClass() {
+        Field field;
+        Method method;
+
+        InnerClass answer = new InnerClass(new FullyQualifiedJavaType(
+                "Criterion")); //$NON-NLS-1$
+        answer.setVisibility(JavaVisibility.PUBLIC);
+        answer.setStatic(true);
+        context.getCommentGenerator().addClassComment(answer,
+                "查询条件类");
+
+        field = new Field();
+        field.setName("param"); //$NON-NLS-1$
+        field.setType(FullyQualifiedJavaType.getStringInstance());
+        field.setVisibility(JavaVisibility.PRIVATE);
+        answer.addField(field);
+        answer.addMethod(getGetter(field));
+
+        field = new Field();
+        field.setName("value"); //$NON-NLS-1$
+        field.setType(FullyQualifiedJavaType.getObjectInstance());
+        field.setVisibility(JavaVisibility.PRIVATE);
+        answer.addField(field);
+        answer.addMethod(getGetter(field));
+
+
+
+        method = new Method();
+        method.setVisibility(JavaVisibility.PROTECTED);
+        method.setName("Criterion"); //$NON-NLS-1$
+        method.setConstructor(true);
+        method.addParameter(new Parameter(FullyQualifiedJavaType
+                .getStringInstance(), "param")); //$NON-NLS-1$
+        method.addParameter(new Parameter(FullyQualifiedJavaType
+                .getObjectInstance(), "value")); //$NON-NLS-1$
+        method.addBodyLine("this.param=param;");
+        method.addBodyLine("if(value instanceof  String)");
+        method.addBodyLine(" value=\"'\"+value+\"'\";");
+        method.addBodyLine("this.value=value;");
+        answer.addMethod(method);
+
+        return answer;
+    }
+
+}
