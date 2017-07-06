@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class MutilCRUDModelRules extends BaseRules {
     }
 
     @Override
-    public boolean generateSQLExampleWhereClause() {
+    public boolean generateSQLWhereClause() {
         return true;
     }
 
@@ -51,20 +51,62 @@ public class MutilCRUDModelRules extends BaseRules {
     }
 
     @Override
+    public boolean generateResultMapWithBLOBs() {
+        return true;
+    }
+    @Override
+    public boolean generateBaseResultMap() {
+        return true;
+    }
+    @Override
+    public boolean generateBaseColumnList() {
+        return true;
+    }
+
+    @Override
+    public boolean generateBlobColumnList() {
+         return true;
+    }
+    @Override
+    public boolean generateCustomColumn() {
+        return true;
+    }
+
+    @Override
     public boolean generateRecordWithBLOBsClass() {
         return false;
+    }
+    @Override
+    public boolean generateWhereClass() {
+        return true;
+    }
+
+    @Override
+    public boolean generateSelectByWhere() {
+        return true;
+    }
+
+    @Override
+    public boolean generateSelectByWhereWithoutBLOBs() {
+        return true;
+    }
+
+    @Override
+    public boolean generateSelectByPrimaryKey() {
+        return true;
+    }
+
+
+
+    @Override
+    public boolean generateCountByWhere() {
+        return true;
     }
 
     @Override
     public boolean generateInsertNotCheck() {
         return true;
     }
-
-    @Override
-    public boolean generateExampleClass() {
-        return true;
-    }
-
 
     @Override
     public boolean generateInsert() {
@@ -76,10 +118,7 @@ public class MutilCRUDModelRules extends BaseRules {
         return true;
     }
 
-    @Override
-    public boolean generateBaseResultMap() {
-        return true;
-    }
+
 
     @Override
     public boolean generateDeleteByWhere() {
@@ -88,27 +127,7 @@ public class MutilCRUDModelRules extends BaseRules {
 
 
     @Override
-    public boolean generateSelectByWhere() {
-        return true;
-    }
-
-    @Override
-    public boolean generateMyBatis3UpdateByExampleWhereClause() {
-        return true;
-    }
-
-    @Override
-    public boolean generateSelectByPrimaryKey() {
-        return true;
-    }
-
-    @Override
-    public boolean generateCountByExample() {
-        return true;
-    }
-
-    @Override
-    public boolean generateUpdateByExampleSelective() {
+    public boolean generateUpdateByWhereSelective() {
         return true;
     }
 
@@ -118,13 +137,20 @@ public class MutilCRUDModelRules extends BaseRules {
     }
 
     @Override
+    public boolean generateUpdateByPrimaryKeyWithBLOBs() {
+        return false;
+    }
+    @Override
+    public boolean generateMyBatis3UpdateByWhereClause() {
+        return false;
+    }
+
+
+    @Override
     public boolean generateDeleteByPrimaryKey() {
         return super.generateDeleteByPrimaryKey();
     }
 
-    @Override
-    public boolean generateBaseColumnList() {
-        return true;
-    }
+
 
 }

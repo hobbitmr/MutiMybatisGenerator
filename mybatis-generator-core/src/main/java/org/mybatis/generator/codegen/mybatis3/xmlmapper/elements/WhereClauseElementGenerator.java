@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -60,16 +60,13 @@ public class WhereClauseElementGenerator extends
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("#{"); //$NON-NLS-1$
+        sb.append("${"); //$NON-NLS-1$
         sb.append("criteria.param");
-        sb.append(",jdbcType="); //$NON-NLS-1$
-        sb.append(FullyQualifiedJavaType.getStringInstance());
         sb.append("}");
         sb.append("=");
         sb.append("#{"); //$NON-NLS-1$
         sb.append("criteria.value");
-        sb.append(",jdbcType="); //$NON-NLS-1$
-        sb.append(FullyQualifiedJavaType.getStringInstance());
+        sb.append(",jdbcType=${criteria.jdbcType}"); //$NON-NLS-1$
         sb.append("}");
 
         ifElement.addElement(new TextElement(sb.toString()));

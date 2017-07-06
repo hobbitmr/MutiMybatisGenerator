@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -124,17 +124,19 @@ public abstract class IntrospectedTable {
 
         ATTR_INSERTS_STATEMENT_ID,
         
-        /** The attr select all statement id. */
-        ATTR_SELECT_ALL_STATEMENT_ID,
-        
+
+        /** The attr select by example statement id. */
+        ATTR_SELECT_BY_WHERE_WITH_CUSTOM_COLUMN_STATEMENT_ID,
+
         /** The attr select by example statement id. */
         ATTR_SELECT_BY_WHERE_STATEMENT_ID,
-        
+
         /** The attr select by example with blobs statement id. */
-        ATTR_SELECT_BY_WHERE_WITH_BLOBS_STATEMENT_ID,
-        
+        ATTR_SELECT_BY_WHERE_WITHOUT_BLOBS_STATEMENT_ID,
+
         /** The attr select by primary key statement id. */
         ATTR_SELECT_BY_PRIMARY_KEY_STATEMENT_ID,
+
         
         /** The attr update by example statement id. */
         ATTR_UPDATE_BY_WHERE_STATEMENT_ID,
@@ -159,12 +161,16 @@ public abstract class IntrospectedTable {
         
         /** The attr result map with blobs id. */
         ATTR_RESULT_MAP_WITH_BLOBS_ID,
-        
+
+
         /** The attr example where clause id. */
         ATTR_EXAMPLE_WHERE_CLAUSE_ID,
         
         /** The attr base column list id. */
         ATTR_BASE_COLUMN_LIST_ID,
+
+        /** The attr base result map id. */
+        ATTR_CUSTOM_COLUMN_LIST_ID,
         
         /** The attr blob column list id. */
         ATTR_BLOB_COLUMN_LIST_ID,
@@ -173,7 +179,10 @@ public abstract class IntrospectedTable {
         ATTR_MYBATIS3_UPDATE_BY_EXAMPLE_WHERE_CLAUSE_ID,
         
         /** The ATT r_ mybati s3_ sq l_ provide r_ type. */
-        ATTR_MYBATIS3_SQL_PROVIDER_TYPE
+        ATTR_MYBATIS3_SQL_PROVIDER_TYPE,
+
+        /** The attr custom column name. */
+        ATTR_COLUMN_CUSTOM_NAME
     }
 
     /** The table configuration. */
@@ -531,6 +540,14 @@ public abstract class IntrospectedTable {
         return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE);
     }
 
+    public String getColumnCustomName() {
+        return internalAttributes.get(InternalAttribute.ATTR_COLUMN_CUSTOM_NAME);
+    }
+    public void setColumnCustomName(String name) {
+        internalAttributes
+                .put(InternalAttribute.ATTR_COLUMN_CUSTOM_NAME, name);
+    }
+
     /**
      * Gets the example type.
      *
@@ -787,10 +804,12 @@ public abstract class IntrospectedTable {
         setSqlMapAliasedFullyQualifiedRuntimeTableName(calculateSqlMapAliasedFullyQualifiedRuntimeTableName());
 
         setCountByExampleStatementId("countByWhere"); //$NON-NLS-1$
-        setSelectAllStatementId("selectAll"); //$NON-NLS-1$
         setSelectByWhereStatementId("selectByWhere"); //$NON-NLS-1$
-        //setSelectWhereWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
+        setSelectWhereWithoutBLOBsStatementId("selectByWhereWithoutBLOBs"); //$NON-NLS-1$
         setSelectByPrimaryKeyStatementId("selectByPrimaryKey"); //$NON-NLS-1$
+
+        setSelectByWhereWithCustomColumnStatementId("selectByWhereWitchColumn"); //$NON-NLS-1$
+
         setDeleteByExampleStatementId("deleteByWhere"); //$NON-NLS-1$
         setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
         setInsertStatementId("insertNoCheck"); //$NON-NLS-1$
@@ -804,9 +823,13 @@ public abstract class IntrospectedTable {
         setUpdateByPrimaryKeySelectiveStatementId("updateByPrimaryKey"); //$NON-NLS-1$
         //setUpdateByPrimaryKeyWithBLOBsStatementId("updateByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
         setBaseResultMapId("BaseResultMap"); //$NON-NLS-1$
-        //setResultMapWithBLOBsId("ResultMapWithBLOBs"); //$NON-NLS-1$
-        setExampleWhereClauseId("where_Clause"); //$NON-NLS-1$
-        setBaseColumnListId("Base_Column_List"); //$NON-NLS-1$
+        setResultMapWithBLOBsId("ResultMapWithBLOBs"); //$NON-NLS-1$
+        setWhereClauseId("whereClause"); //$NON-NLS-1$
+        setBaseColumnListId("BaseColumnList"); //$NON-NLS-1$
+        setBlobColumnListId("BlobColumnList");
+
+        setCustomColumnListId("CustomColumnList"); //$NON-NLS-1$
+
        // setBlobColumnListId("Blob_Column_List"); //$NON-NLS-1$
        // setMyBatis3UpdateByExampleWhereClauseId("Update_By_Where_Clause"); //$NON-NLS-1$
     }
@@ -837,7 +860,7 @@ public abstract class IntrospectedTable {
      * @param s
      *            the new example where clause id
      */
-    public void setExampleWhereClauseId(String s) {
+    public void setWhereClauseId(String s) {
         internalAttributes.put(InternalAttribute.ATTR_EXAMPLE_WHERE_CLAUSE_ID,
                 s);
     }
@@ -854,7 +877,6 @@ public abstract class IntrospectedTable {
                         InternalAttribute.ATTR_MYBATIS3_UPDATE_BY_EXAMPLE_WHERE_CLAUSE_ID,
                         s);
     }
-
     /**
      * Sets the result map with blo bs id.
      *
@@ -864,6 +886,24 @@ public abstract class IntrospectedTable {
     public void setResultMapWithBLOBsId(String s) {
         internalAttributes.put(InternalAttribute.ATTR_RESULT_MAP_WITH_BLOBS_ID,
                 s);
+    }
+
+
+    /**
+     * 设置自定义列的XML id
+     * @param s
+     * @return
+     */
+    public String setCustomColumnListId(String s) {
+        return internalAttributes.put(InternalAttribute.ATTR_CUSTOM_COLUMN_LIST_ID,s);
+    }
+
+    /**
+     * 获取自定义的xml id
+     * @return
+     */
+    public String getCustomColumnListId() {
+        return internalAttributes.get(InternalAttribute.ATTR_CUSTOM_COLUMN_LIST_ID);
     }
 
     /**
@@ -961,29 +1001,21 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_SELECT_BY_PRIMARY_KEY_STATEMENT_ID, s);
     }
 
+
+
     /**
      * Sets the select by example with blo bs statement id.
      *
      * @param s
      *            the new select by example with blo bs statement id
      */
-    public void setSelectWhereWithBLOBsStatementId(String s) {
+    public void setSelectWhereWithoutBLOBsStatementId(String s) {
         internalAttributes
                 .put(
-                        InternalAttribute.ATTR_SELECT_BY_WHERE_WITH_BLOBS_STATEMENT_ID,
+                        InternalAttribute.ATTR_SELECT_BY_WHERE_WITHOUT_BLOBS_STATEMENT_ID,
                         s);
     }
 
-    /**
-     * Sets the select all statement id.
-     *
-     * @param s
-     *            the new select all statement id
-     */
-    public void setSelectAllStatementId(String s) {
-        internalAttributes.put(
-                InternalAttribute.ATTR_SELECT_ALL_STATEMENT_ID, s);
-    }
 
     /**
      * Sets the select by example statement id.
@@ -1151,6 +1183,17 @@ public abstract class IntrospectedTable {
                 .get(InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_STATEMENT_ID);
     }
 
+    public String setSelectByWhereWithCustomColumnStatementId(String s) {
+        return internalAttributes
+                .put(InternalAttribute.ATTR_SELECT_BY_WHERE_WITH_CUSTOM_COLUMN_STATEMENT_ID,s);
+    }
+
+
+    public String getSelectByWhereWithCustomColumnStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_SELECT_BY_WHERE_WITH_CUSTOM_COLUMN_STATEMENT_ID);
+    }
+
     /**
      * Gets the update by example with blo bs statement id.
      *
@@ -1196,20 +1239,12 @@ public abstract class IntrospectedTable {
      *
      * @return the select by example with blo bs statement id
      */
-    public String getSelectByExampleWithBLOBsStatementId() {
+    public String getSelectByWhereWithoutBLOBsStatementId() {
         return internalAttributes
-                .get(InternalAttribute.ATTR_SELECT_BY_WHERE_WITH_BLOBS_STATEMENT_ID);
+                .get(InternalAttribute.ATTR_SELECT_BY_WHERE_WITHOUT_BLOBS_STATEMENT_ID);
     }
 
-    /**
-     * Gets the select all statement id.
-     *
-     * @return the select all statement id
-     */
-    public String getSelectAllStatementId() {
-        return internalAttributes
-                .get(InternalAttribute.ATTR_SELECT_ALL_STATEMENT_ID);
-    }
+
 
     /**
      * Gets the select by example statement id.
@@ -1422,7 +1457,14 @@ public abstract class IntrospectedTable {
         sb.append('.');
         sb.append(fullyQualifiedTable.getDomainObjectName());
         sb.append("Where"); //$NON-NLS-1$
-        setExampleType(sb.toString());
+        setWhereType(sb.toString());
+
+        sb.setLength(0);
+        sb.append(pakkage);
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Column"); //$NON-NLS-1$
+        setColumnCustomName(sb.toString());
     }
 
     /**
@@ -1679,7 +1721,7 @@ public abstract class IntrospectedTable {
      * @param exampleType
      *            the new example type
      */
-    public void setExampleType(String exampleType) {
+    public void setWhereType(String exampleType) {
         internalAttributes
                 .put(InternalAttribute.ATTR_Where_TYPE, exampleType);
     }

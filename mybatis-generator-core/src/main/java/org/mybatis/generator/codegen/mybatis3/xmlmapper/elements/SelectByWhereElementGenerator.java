@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  *    limitations under the License.
  */
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
-
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
@@ -63,8 +61,10 @@ public class SelectByWhereElementGenerator extends
         }*/
 
         answer.addElement(getBaseColumnListElement());
-       // answer.addElement(new TextElement(",")); //$NON-NLS-1$
-        //answer.addElement(getBlobColumnListElement());
+        if(introspectedTable.hasBLOBColumns()){
+            answer.addElement(new TextElement(",")); //$NON-NLS-1$
+            answer.addElement(getBlobColumnListElement());
+        }
 
         sb.setLength(0);
         sb.append("from "); //$NON-NLS-1$

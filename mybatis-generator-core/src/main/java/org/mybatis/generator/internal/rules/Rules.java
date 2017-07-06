@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -134,7 +134,7 @@ public interface Rules {
      * 
      * @return true if the SQL where clause element should be generated
      */
-    boolean generateSQLExampleWhereClause();
+    boolean generateSQLWhereClause();
 
     /**
      * Implements the rule for generating the SQL example where clause element
@@ -147,7 +147,7 @@ public interface Rules {
      * 
      * @return true if the SQL where clause element should be generated
      */
-    boolean generateMyBatis3UpdateByExampleWhereClause();
+    boolean generateMyBatis3UpdateByWhereClause();
 
     /**
      * Implements the rule for generating the SQL base column list element.
@@ -156,6 +156,12 @@ public interface Rules {
      * @return true if the SQL base column list element should be generated
      */
     boolean generateBaseColumnList();
+
+    /**
+     * 是否生产自定义列
+     * @return
+     */
+    public boolean generateCustomColumn();
 
     /**
      * Implements the rule for generating the SQL blob column list element.
@@ -202,11 +208,11 @@ public interface Rules {
      * 
      * @return true if the example class should be generated
      */
-    boolean generateExampleClass();
+    boolean generateWhereClass();
 
-    boolean generateCountByExample();
+    boolean generateCountByWhere();
 
-    boolean generateUpdateByExampleSelective();
+    boolean generateUpdateByWhereSelective();
 
     boolean generateUpdateByWhereWithoutBLOBs();
 

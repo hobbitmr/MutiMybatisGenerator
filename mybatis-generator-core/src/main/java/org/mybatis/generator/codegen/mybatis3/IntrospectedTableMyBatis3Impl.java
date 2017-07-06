@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,10 +31,7 @@ import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.AnnotatedClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.JavaMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.MixedClientGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.WhereGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
+import org.mybatis.generator.codegen.mybatis3.model.*;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
@@ -169,7 +166,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
      */
     protected void calculateJavaModelGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
-        if (getRules().generateExampleClass()) {
+        if (getRules().generateWhereClass()) {
             AbstractJavaGenerator javaGenerator = new WhereGenerator();
             initializeAbstractGenerator(javaGenerator, warnings,
                     progressCallback);
@@ -189,6 +186,13 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
                     progressCallback);
             javaModelGenerators.add(javaGenerator);
         }
+        if (getRules().generateCustomColumn()) {
+            ColumnCustomerGenerator columnCustomerGenerator=new ColumnCustomerGenerator();
+            initializeAbstractGenerator(columnCustomerGenerator, warnings,
+                    progressCallback);
+            javaModelGenerators.add(columnCustomerGenerator);
+        }
+
 
         if (getRules().generateRecordWithBLOBsClass()) {
             AbstractJavaGenerator javaGenerator = new RecordWithBLOBsGenerator();

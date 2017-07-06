@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class UpdateByWhereElementGenerator extends
                 .addAttribute(new Attribute(
                         "id", introspectedTable.getUpdateByWhereStatementId())); //$NON-NLS-1$
 
-        answer.addAttribute(new Attribute("parameterType", "map")); //$NON-NLS-1$ //$NON-NLS-2$
+       // answer.addAttribute(new Attribute("parameterType", "map")); //$NON-NLS-1$ //$NON-NLS-2$
 
         context.getCommentGenerator().addComment(answer);
 

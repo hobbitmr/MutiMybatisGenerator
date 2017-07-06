@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ public class SqlProviderGenerator extends AbstractJavaGenerator {
 
     protected boolean addCountByExampleMethod(TopLevelClass topLevelClass) {
         boolean rc = false;
-        if (introspectedTable.getRules().generateCountByExample()) {
+        if (introspectedTable.getRules().generateCountByWhere()) {
             AbstractJavaProviderMethodGenerator methodGenerator = new ProviderCountByExampleMethodGenerator(useLegacyBuilder);
             initializeAndExecuteGenerator(methodGenerator, topLevelClass);
             rc = true;
@@ -145,7 +145,7 @@ public class SqlProviderGenerator extends AbstractJavaGenerator {
     protected boolean addUpdateByExampleSelectiveMethod(
             TopLevelClass topLevelClass) {
         boolean rc = false;
-        if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
+        if (introspectedTable.getRules().generateUpdateByWhereSelective()) {
             AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleSelectiveMethodGenerator(useLegacyBuilder);
             initializeAndExecuteGenerator(methodGenerator, topLevelClass);
             rc = true;

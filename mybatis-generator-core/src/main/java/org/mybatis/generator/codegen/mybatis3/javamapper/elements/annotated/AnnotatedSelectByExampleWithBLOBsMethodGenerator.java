@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public class AnnotatedSelectByExampleWithBLOBsMethodGenerator extends
         sb.append("@SelectProvider(type="); //$NON-NLS-1$
         sb.append(fqjt.getShortName());
         sb.append(".class, method=\""); //$NON-NLS-1$
-        sb.append(introspectedTable.getSelectByExampleWithBLOBsStatementId());
+        sb.append(introspectedTable.getSelectByWhereWithoutBLOBsStatementId());
         sb.append("\")"); //$NON-NLS-1$
         
         method.addAnnotation(sb.toString());

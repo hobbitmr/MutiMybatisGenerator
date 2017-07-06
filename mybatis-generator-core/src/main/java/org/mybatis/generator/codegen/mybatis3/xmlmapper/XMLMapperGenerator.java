@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -48,12 +48,16 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         context.getCommentGenerator().addRootComment(answer);
 
         addResultMapElement(answer);
+        addResultMapWithBLOBSElement(answer);
+        addCustomColumnListElement(answer);
         addWhereClauseElement(answer);
         addBaseColumnListElement(answer);
-       // addBlobColumnListElement(answer);
+        addBlobColumnListElement(answer);
 
         addCountByWhereElement(answer);
         addSelectByWhereElement(answer);
+        addSelectByWhereWitchColumnElement(answer);
+        addSelectByWhereWithoutBLOBsElement(answer);
         addSelectByPrimaryKeyElement(answer);
 
         addDeleteByWhereElement(answer);
@@ -79,11 +83,25 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             AbstractXmlElementGenerator elementGenerator = new ResultMapElementGenerator(false);
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
+
+
+    }
+    protected void addCustomColumnListElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateCustomColumn()) {
+            AbstractXmlElementGenerator elementGenerator = new CustomColumnListElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    protected void addResultMapWithBLOBSElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateResultMapWithBLOBs()) {
+            AbstractXmlElementGenerator elementGenerator = new ResultMapWithBLOBsElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
     }
 
 
     protected void addWhereClauseElement(XmlElement parentElement) {
-        if (introspectedTable.getRules().generateSQLExampleWhereClause()) {
+        if (introspectedTable.getRules().generateSQLWhereClause()) {
             AbstractXmlElementGenerator elementGenerator = new WhereClauseElementGenerator(
                     false);
             initializeAndExecuteGenerator(elementGenerator, parentElement);
@@ -93,7 +111,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     protected void addMyBatis3UpdateByExampleWhereClauseElement(
             XmlElement parentElement) {
         if (introspectedTable.getRules()
-                .generateMyBatis3UpdateByExampleWhereClause()) {
+                .generateMyBatis3UpdateByWhereClause()) {
             AbstractXmlElementGenerator elementGenerator = new WhereClauseElementGenerator(
                     true);
             initializeAndExecuteGenerator(elementGenerator, parentElement);
@@ -128,6 +146,14 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
+
+    protected void addSelectByWhereWitchColumnElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSelectByWhere()&&introspectedTable.getRules().generateCustomColumn()) {
+            AbstractXmlElementGenerator elementGenerator = new SelectByWhereWitchColumnElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
 
     protected void addSelectByPrimaryKeyElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
@@ -173,14 +199,14 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
 
     protected void addCountByWhereElement(XmlElement parentElement) {
-        if (introspectedTable.getRules().generateCountByExample()) {
+        if (introspectedTable.getRules().generateCountByWhere()) {
             AbstractXmlElementGenerator elementGenerator = new CountByWhereElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
 
     protected void addUpdateByWhereElement(XmlElement parentElement) {
-        if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
+        if (introspectedTable.getRules().generateUpdateByWhereSelective()) {
             AbstractXmlElementGenerator elementGenerator = new UpdateByWhereElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }

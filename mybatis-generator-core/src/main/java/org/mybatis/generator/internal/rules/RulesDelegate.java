@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -76,8 +76,8 @@ public class RulesDelegate implements Rules {
         return rules.generateBaseResultMap();
     }
 
-    public boolean generateCountByExample() {
-        return rules.generateCountByExample();
+    public boolean generateCountByWhere() {
+        return rules.generateCountByWhere();
     }
 
     public boolean generateDeleteByWhere() {
@@ -88,8 +88,8 @@ public class RulesDelegate implements Rules {
         return rules.generateDeleteByPrimaryKey();
     }
 
-    public boolean generateExampleClass() {
-        return rules.generateExampleClass();
+    public boolean generateWhereClass() {
+        return rules.generateWhereClass();
     }
 
     public boolean generateInsertNotCheck() {
@@ -103,6 +103,10 @@ public class RulesDelegate implements Rules {
         return rules.generateInserts();
     }
 
+    @Override
+    public boolean generateCustomColumn() {
+        return false;
+    }
 
     public boolean generatePrimaryKeyClass() {
         return rules.generatePrimaryKeyClass();
@@ -128,16 +132,16 @@ public class RulesDelegate implements Rules {
         return rules.generateSelectByPrimaryKey();
     }
 
-    public boolean generateSQLExampleWhereClause() {
-        return rules.generateSQLExampleWhereClause();
+    public boolean generateSQLWhereClause() {
+        return rules.generateSQLWhereClause();
     }
 
-    public boolean generateMyBatis3UpdateByExampleWhereClause() {
-        return rules.generateMyBatis3UpdateByExampleWhereClause();
+    public boolean generateMyBatis3UpdateByWhereClause() {
+        return rules.generateMyBatis3UpdateByWhereClause();
     }
 
-    public boolean generateUpdateByExampleSelective() {
-        return rules.generateUpdateByExampleSelective();
+    public boolean generateUpdateByWhereSelective() {
+        return rules.generateUpdateByWhereSelective();
     }
 
     public boolean generateUpdateByExampleWithBLOBs() {

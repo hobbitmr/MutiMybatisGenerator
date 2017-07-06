@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         }
         addCountByWhereMethod(interfaze);
         addSelectByWhereMethod(interfaze);
+        addSelectByWhereCustomColumnMethod(interfaze);
         addSelectByWhereWithoutBLOBsMethod(interfaze);
         addSelectByPrimaryKeyMethod(interfaze);
 
@@ -108,7 +109,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         return answer;
     }
     protected void addCountByWhereMethod(Interface interfaze) {
-        if (introspectedTable.getRules().generateCountByExample()) {
+        if (introspectedTable.getRules().generateCountByWhere()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new CountByWhereMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
@@ -154,6 +155,13 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
+    protected void addSelectByWhereCustomColumnMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateCustomColumn()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new SelectByWhereCustomColumnMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+
 
     protected void addSelectByWhereWithoutBLOBsMethod(Interface interfaze) {
         if (introspectedTable.getRules().generateSelectByWhereWithoutBLOBs()) {
@@ -170,7 +178,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
     }
 
     protected void addUpdateByWhereSelectiveMethod(Interface interfaze) {
-        if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
+        if (introspectedTable.getRules().generateUpdateByWhereSelective()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new UpdateByWhereMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }

@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -68,6 +68,11 @@ public abstract class BaseRules implements Rules {
         }
         
         return tableConfiguration.isInsertStatementEnabled();
+    }
+
+    @Override
+    public boolean generateCustomColumn() {
+        return false;
     }
 
     /**
@@ -272,7 +277,7 @@ public abstract class BaseRules implements Rules {
      * 
      * @return true if the SQL where clause element should be generated
      */
-    public boolean generateSQLExampleWhereClause() {
+    public boolean generateSQLWhereClause() {
         if (isModelOnly) {
             return false;
         }
@@ -299,7 +304,7 @@ public abstract class BaseRules implements Rules {
      * 
      * @return true if the SQL where clause element should be generated
      */
-    public boolean generateMyBatis3UpdateByExampleWhereClause() {
+    public boolean generateMyBatis3UpdateByWhereClause() {
         if (isModelOnly) {
             return false;
         }
@@ -370,7 +375,7 @@ public abstract class BaseRules implements Rules {
      * 
      * @return true if the example class should be generated
      */
-    public boolean generateExampleClass() {
+    public boolean generateWhereClass() {
         if (introspectedTable.getContext().getSqlMapGeneratorConfiguration() == null
                 && introspectedTable.getContext().getJavaClientGeneratorConfiguration() == null) {
             // this is a model only context - don't generate the example class
@@ -390,9 +395,9 @@ public abstract class BaseRules implements Rules {
     }
 
     /* (non-Javadoc)
-     * @see org.mybatis.generator.internal.rules.Rules#generateCountByExample()
+     * @see org.mybatis.generator.internal.rules.Rules#generateCountByWhere()
      */
-    public boolean generateCountByExample() {
+    public boolean generateCountByWhere() {
         if (isModelOnly) {
             return false;
         }
@@ -403,9 +408,9 @@ public abstract class BaseRules implements Rules {
     }
 
     /* (non-Javadoc)
-     * @see org.mybatis.generator.internal.rules.Rules#generateUpdateByExampleSelective()
+     * @see org.mybatis.generator.internal.rules.Rules#generateUpdateByWhereSelective()
      */
-    public boolean generateUpdateByExampleSelective() {
+    public boolean generateUpdateByWhereSelective() {
         if (isModelOnly) {
             return false;
         }
@@ -462,6 +467,7 @@ public abstract class BaseRules implements Rules {
         return generateSelectByPrimaryKey()
                 || generateSelectByWhereWithoutBLOBs();
     }
+
 
     /* (non-Javadoc)
      * @see org.mybatis.generator.internal.rules.Rules#generateBlobColumnList()

@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public class SelectByPrimaryKeyElementGenerator extends
         }
         answer.addElement(new TextElement(sb.toString()));
         answer.addElement(getBaseColumnListElement());
-        if (introspectedTable.hasBLOBColumns()) {
+        if(introspectedTable.hasBLOBColumns()){
             answer.addElement(new TextElement(",")); //$NON-NLS-1$
             answer.addElement(getBlobColumnListElement());
         }

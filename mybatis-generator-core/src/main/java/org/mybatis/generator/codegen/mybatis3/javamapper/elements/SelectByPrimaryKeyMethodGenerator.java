@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ public class SelectByPrimaryKeyMethodGenerator extends
                     introspectedTable.getPrimaryKeyType());
             importedTypes.add(type);
             method.addParameter(new Parameter(type, "key")); //$NON-NLS-1$
+
         } else {
             // no primary key class - fields are in the base class
             // if more than one PK field, then we need to annotate the

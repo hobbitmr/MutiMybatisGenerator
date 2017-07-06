@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -66,13 +66,12 @@ public class SelectByWhereWithoutBLOBsMethodGenerator extends
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
 
-        method.setName(introspectedTable.getSelectByWhereStatementId());
+        method.setName(introspectedTable.getSelectByWhereWithoutBLOBsStatementId());
         method.addParameter(new Parameter(type,
                 "where", "@Param(\"where\")")); //$NON-NLS-1$ //$NON-NLS-2$
 
-
         context.getCommentGenerator().addGeneralMethodComment(method,
-                "通过条件查询记录");
+                "通过条件查询记录,不包含text类型的字段");
 
         addMapperAnnotations(interfaze, method);
         

@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class AnnotatedClientGenerator extends JavaMapperGenerator {
 
     @Override
     protected void addCountByWhereMethod(Interface interfaze) {
-        if (introspectedTable.getRules().generateCountByExample()) {
+        if (introspectedTable.getRules().generateCountByWhere()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new AnnotatedCountByExampleMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
@@ -110,7 +110,7 @@ public class AnnotatedClientGenerator extends JavaMapperGenerator {
 
     @Override
     protected void addUpdateByWhereSelectiveMethod(Interface interfaze) {
-        if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
+        if (introspectedTable.getRules().generateUpdateByWhereSelective()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new AnnotatedUpdateByExampleSelectiveMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
