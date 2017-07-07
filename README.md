@@ -7,8 +7,8 @@
 4.生成批量删除和批量插入操作
 5.生产查询的时候可以指定返回列的值
 
-#使用指南
-1.下载源码,编译后.通过maven应用:       
+##使用指南
+#####1.下载源码,编译后.通过maven应用:       
 ```
             <plugin>
                 <!--mybatis数据库逆向插件-->
@@ -20,11 +20,11 @@
                 </configuration>
             </plugin>
 ```
-2.在配置generatorConfig.xml中配置
+#####2.在配置generatorConfig.xml中配置
 ````
             <context id="prod" targetRuntime="MyBatis3" defaultModelType="mutilCRUD">
 ````
-3.在项目中执maven插件
+#####3.在项目中执maven插件
 ````
 mybatis-generator-hobbit:generate
 ````
