@@ -21,23 +21,16 @@
 
   <parent>
     <groupId>org.mybatis.generator</groupId>
-    <artifactId>mybatis-generator</artifactId>
-    <version>1.3.5</version>
+    <artifactId>mybatis-generator-hobbit</artifactId>
+    <version>1.0.0</version>
   </parent>
 
-  <artifactId>mybatis-generator-core</artifactId>
+  <artifactId>mybatis-generator-hobbit-core</artifactId>
   <packaging>jar</packaging>
-  <name>MyBatis Generator Core</name>
+  <name>MyBatis Generator hobbit Core</name>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skip>false</skip>
-        </configuration>
-      </plugin>
       <!-- create the Source JAR and JavaDoc a bit earlier so it is ready for the assembly -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -47,18 +40,6 @@
             <phase>prepare-package</phase>
             <goals>
               <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
@@ -129,18 +110,4 @@
       <scope>runtime</scope>
     </dependency>
   </dependencies>
-
-  <distributionManagement>
-    <site>
-      <id>gh-pages</id>
-      <name>Mybatis Generator GitHub Pages</name>
-      <url>git:ssh://git@github.com/mybatis/generator.git?gh-pages#</url>
-    </site>
-  </distributionManagement>
-
-  <description>MyBatis Generator - a code generator for MyBatis and iBatis.</description>
-  <scm>
-    <url>https://github.com/mybatis/generator</url>
-    <tag>mybatis-generator-1.3.5</tag>
-  </scm>
 </project>
